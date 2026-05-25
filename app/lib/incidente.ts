@@ -10,14 +10,16 @@ export const CATEGORIAS: { value: Categoria; label: string }[] = [
 ]
 
 export const TIPOS_ACTO: { value: TipoActoServicio; label: string }[] = [
-  { value: 'SESION_COMPANIA',         label: 'Sesión de Compañía' },
-  { value: 'JUNTA_OFICIALES',         label: 'Junta de Oficiales' },
-  { value: 'CONSEJO_DISCIPLINA',      label: 'Consejo de Disciplina' },
-  { value: 'ACADEMIA_COMPANIA',       label: 'Academia de Compañía' },
-  { value: 'PRESTAMO_MATERIAL',       label: 'Préstamo de Material' },
-  { value: 'EJERCICIOS',              label: 'Ejercicios' },
-  { value: 'INGRESO_PERSONAL_EXTERNO',label: 'Ingreso de Personal Externo' },
-  { value: 'OTRO',                    label: 'Otro' },
+  { value: 'SESION_COMPANIA',                 label: 'Sesión de Compañía' },
+  { value: 'JUNTA_OFICIALES',                 label: 'Junta de Oficiales' },
+  { value: 'CONSEJO_DISCIPLINA',              label: 'Consejo de Disciplina' },
+  { value: 'ACADEMIA_COMPANIA',               label: 'Academia de Compañía' },
+  { value: 'PRESTAMO_MATERIAL',               label: 'Préstamo de Material' },
+  { value: 'EJERCICIOS',                      label: 'Ejercicios' },
+  { value: 'INGRESO_PERSONAL_EXTERNO',        label: 'Ingreso de Personal Externo' },
+  { value: 'MATERIAL_MAYOR_COMBUSTIBLE',      label: '6-14 Carga de Combustible' },
+  { value: 'MATERIAL_MAYOR_CENTRO_ASISTENCIAL', label: '6-15 Centro Asistencial' },
+  { value: 'OTRO',                            label: 'Otro' },
 ]
 
 // Acceso rápido (subset que aparece como botones grandes en el formulario)
@@ -29,6 +31,8 @@ export const QUICK_TIPOS: TipoActoServicio[] = [
   'PRESTAMO_MATERIAL',
   'EJERCICIOS',
   'INGRESO_PERSONAL_EXTERNO',
+  'MATERIAL_MAYOR_COMBUSTIBLE',
+  'MATERIAL_MAYOR_CENTRO_ASISTENCIAL',
 ]
 
 export const VEHICULOS = ['Q-6', 'RX-6', 'RH-6', 'QR-6']

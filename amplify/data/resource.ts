@@ -18,6 +18,8 @@ const schema = a.schema({
         'PRESTAMO_MATERIAL',
         'EJERCICIOS',
         'INGRESO_PERSONAL_EXTERNO',
+        'MATERIAL_MAYOR_COMBUSTIBLE',         // 6-14
+        'MATERIAL_MAYOR_CENTRO_ASISTENCIAL',  // 6-15
         'OTRO',
       ]),
       tipoEmergencia: a.string(),
