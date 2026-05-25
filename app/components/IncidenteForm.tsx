@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { generateClient } from 'aws-amplify/data'
 import type { Schema } from '@/amplify/data/resource'
 import {
   CATEGORIAS, TIPOS_ACTO, QUICK_TIPOS, VEHICULOS,
-  labelTipoActo, todayDate, nowTime,
+  labelTipoActo, todayDate,
   type Categoria, type TipoActoServicio, type Incidente,
 } from '@/app/lib/incidente'
 import { EMERGENCIA_GROUPS } from '@/app/lib/emergencias'
@@ -47,7 +47,7 @@ const initialState = (): FormState => ({
   conductor: '',
   odometroAnterior: '',
   odometroActual: '',
-  horaSalida: nowTime(),
+  horaSalida: '',
   horaLlegada: '',
   horaRegreso: '',
   pasoCombustible: false,
@@ -94,9 +94,42 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [ultimoOdometroPorVehiculo, setUltimoOdometroPorVehiculo] = useState<Map<string, number>>(new Map())
+  const [autoLlenado, setAutoLlenado] = useState(false)
 
   const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
     setForm(prev => ({ ...prev, [k]: v }))
+
+  // Cargar últimos odómetros por vehículo (solo al crear)
+  useEffect(() => {
+    if (isEdit) return
+    client.models.Incidente.list().then(({ data }) => {
+      const sorted = [...data].sort((a, b) =>
+        (b.createdAt ?? '').localeCompare(a.createdAt ?? '')
+      )
+      const map = new Map<string, number>()
+      for (const i of sorted) {
+        if (i.vehiculo && i.odometroActual != null && !map.has(i.vehiculo)) {
+          map.set(i.vehiculo, i.odometroActual)
+        }
+      }
+      setUltimoOdometroPorVehiculo(map)
+    }).catch(() => { /* sin auto-llenado si falla */ })
+  }, [isEdit])
+
+  const handleVehiculoChange = (v: string) => {
+    set('vehiculo', v)
+    if (isEdit) return
+    const ultimo = v ? ultimoOdometroPorVehiculo.get(v) : undefined
+    if (ultimo != null) {
+      set('odometroAnterior', String(ultimo))
+      setAutoLlenado(true)
+    } else {
+      // Sin registros previos: limpiar si el valor actual venía de un auto-fill
+      if (autoLlenado) set('odometroAnterior', '')
+      setAutoLlenado(false)
+    }
+  }
 
   const kmRecorridos = useMemo(() => {
     const ant = Number(form.odometroAnterior)
@@ -288,7 +321,7 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
           <Field label="Vehículo">
             <select
               value={form.vehiculo}
-              onChange={e => set('vehiculo', e.target.value)}
+              onChange={e => handleVehiculoChange(e.target.value)}
               className={inputCls}
             >
               <option value="">Seleccionar vehículo</option>
@@ -308,9 +341,14 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
             <input
               type="number" min="0"
               value={form.odometroAnterior}
-              onChange={e => set('odometroAnterior', e.target.value)}
+              onChange={e => { set('odometroAnterior', e.target.value); setAutoLlenado(false) }}
               className={inputCls}
             />
+            {autoLlenado && (
+              <p className="text-xs text-green-700">
+                Autocompletado con el último registro de {form.vehiculo}.
+              </p>
+            )}
           </Field>
           <Field label="Odómetro Actual (km)">
             <input

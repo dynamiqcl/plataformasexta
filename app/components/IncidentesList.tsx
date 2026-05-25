@@ -7,7 +7,7 @@ import type { Schema } from '@/amplify/data/resource'
 import { useRouter } from 'next/navigation'
 import {
   type Incidente,
-  formatFecha, formatHora, formatDateTime,
+  formatFecha, formatDateTime,
   labelCategoria, labelTipoActo,
 } from '@/app/lib/incidente'
 import { labelEmergencia } from '@/app/lib/emergencias'
@@ -91,7 +91,6 @@ export default function IncidentesList() {
             <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-600 text-xs uppercase tracking-wide">
               <tr>
                 <th className="px-4 py-3 text-left">Fecha</th>
-                <th className="px-4 py-3 text-left">Hora salida</th>
                 <th className="px-4 py-3 text-left">Categoría</th>
                 <th className="px-4 py-3 text-left">Tipo</th>
                 <th className="px-4 py-3 text-left">Dirección</th>
@@ -114,7 +113,6 @@ export default function IncidentesList() {
                     className="hover:bg-zinc-50 cursor-pointer"
                   >
                     <td className="px-4 py-3 text-zinc-900">{formatFecha(i.fecha)}</td>
-                    <td className="px-4 py-3 text-zinc-700 tabular-nums">{formatHora(i.horaSalida)}</td>
                     <td className="px-4 py-3 text-zinc-700">{labelCategoria(i.categoria)}</td>
                     <td className="px-4 py-3 text-zinc-700">{labelTipo(i)}</td>
                     <td className="px-4 py-3 text-zinc-900">{i.direccion}</td>

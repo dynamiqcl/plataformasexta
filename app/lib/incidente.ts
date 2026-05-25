@@ -31,7 +31,7 @@ export const QUICK_TIPOS: TipoActoServicio[] = [
   'INGRESO_PERSONAL_EXTERNO',
 ]
 
-export const VEHICULOS = ['B-6', 'BX-6', 'M-6', 'Q-6', 'Otro']
+export const VEHICULOS = ['Q-6', 'RX-6', 'RH-6', 'QR-6']
 
 export function labelTipoActo(v: TipoActoServicio | null | undefined): string {
   if (!v) return '—'
