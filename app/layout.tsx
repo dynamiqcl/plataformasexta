@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
 import '@aws-amplify/ui-react/styles.css'
+import './globals.css'
 import ConfigureAmplify from './components/ConfigureAmplify'
 import RegisterSW from './components/RegisterSW'
 

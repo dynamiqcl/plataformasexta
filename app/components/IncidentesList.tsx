@@ -97,6 +97,7 @@ export default function IncidentesList() {
                 <th className="px-4 py-3 text-left">Vehículo</th>
                 <th className="px-4 py-3 text-right">Personal</th>
                 <th className="px-4 py-3 text-left">Registrado</th>
+                <th className="px-4 py-3 text-left">Por</th>
                 <th className="px-4 py-3 text-right">Acción</th>
               </tr>
             </thead>
@@ -119,6 +120,9 @@ export default function IncidentesList() {
                     <td className="px-4 py-3 text-zinc-700">{i.vehiculo ?? '—'}</td>
                     <td className="px-4 py-3 text-zinc-900 text-right tabular-nums">{personal}</td>
                     <td className="px-4 py-3 text-zinc-500 text-xs tabular-nums">{formatDateTime(i.createdAt)}</td>
+                    <td className="px-4 py-3 text-zinc-700 text-xs truncate max-w-[160px]" title={i.registradoPor ?? ''}>
+                      {i.registradoPor ?? '—'}
+                    </td>
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={`/incidentes/${i.id}/editar`}

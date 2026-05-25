@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { generateClient } from 'aws-amplify/data'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 import type { Schema } from '@/amplify/data/resource'
 import {
   CATEGORIAS, TIPOS_ACTO, QUICK_TIPOS, VEHICULOS,
@@ -190,9 +191,15 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
         observaciones: form.observaciones.trim() || null,
       }
 
-      const { errors } = isEdit
-        ? await client.models.Incidente.update({ id: incidente!.id, ...payload })
-        : await client.models.Incidente.create(payload)
+      let result
+      if (isEdit) {
+        result = await client.models.Incidente.update({ id: incidente!.id, ...payload })
+      } else {
+        const attrs = await fetchUserAttributes().catch(() => ({}))
+        const registradoPor = (attrs as { email?: string }).email ?? null
+        result = await client.models.Incidente.create({ ...payload, registradoPor })
+      }
+      const { errors } = result
       if (errors?.length) throw new Error(errors[0].message)
       router.push('/')
     } catch (e) {

@@ -49,6 +49,9 @@ const schema = a.schema({
 
       // Adicional
       observaciones: a.string(),
+
+      // Auditoría
+      registradoPor: a.string(),
     })
     .authorization((allow) => [allow.authenticated()]),
 })

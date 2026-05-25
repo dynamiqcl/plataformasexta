@@ -12,15 +12,73 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+
+/* ===========================================================
+ * Amplify Authenticator — tema rojo "6ª Compañía"
+ * =========================================================== */
+
+[data-amplify-authenticator] {
+  /* Fondo de página de login: gradiente rojo */
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,0.18) 0%, transparent 50%),
+    linear-gradient(135deg, #dc2626 0%, #991b1b 60%, #7f1d1d 100%);
+
+  /* Brand colors (botones/links primarios) */
+  --amplify-colors-brand-primary-10:  #fee2e2;
+  --amplify-colors-brand-primary-20:  #fecaca;
+  --amplify-colors-brand-primary-40:  #f87171;
+  --amplify-colors-brand-primary-60:  #ef4444;
+  --amplify-colors-brand-primary-80:  #dc2626;
+  --amplify-colors-brand-primary-90:  #b91c1c;
+  --amplify-colors-brand-primary-100: #991b1b;
+
+  /* Tab activo en rojo */
+  --amplify-components-tabs-item-active-color: #dc2626;
+  --amplify-components-tabs-item-active-border-color: #dc2626;
+  --amplify-components-tabs-item-hover-color: #b91c1c;
+  --amplify-components-tabs-item-focus-color: #dc2626;
+
+  /* Foco de inputs */
+  --amplify-components-fieldcontrol-focus-border-color: #dc2626;
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+
+  /* Botón primario "Sign in" */
+  --amplify-components-button-primary-background-color: #dc2626;
+  --amplify-components-button-primary-hover-background-color: #b91c1c;
+  --amplify-components-button-primary-focus-background-color: #b91c1c;
+  --amplify-components-button-primary-active-background-color: #991b1b;
+
+  /* Links secundarios ("Forgot your password?") */
+  --amplify-components-button-link-color: #b91c1c;
+  --amplify-components-button-link-hover-color: #7f1d1d;
+}
+
+/* Card del formulario con sombra y bordes redondeados */
+[data-amplify-authenticator] [data-amplify-router] {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  background: #fff;
+  width: 100%;
+  max-width: 26rem;
+  overflow: hidden;
+}
+
+[data-amplify-authenticator] [data-amplify-container] {
+  width: 100%;
+  max-width: 26rem;
 }
