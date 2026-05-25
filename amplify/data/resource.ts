@@ -38,7 +38,11 @@ const schema = a.schema({
 
       // Recarga / materiales
       pasoCombustible: a.boolean(),
+      litrosCombustible: a.integer(),
+      direccionCombustible: a.string(),
       pasoMaterial: a.boolean(),
+      direccionMaterial: a.string(),
+      descripcionMaterial: a.string(),
 
       // Personal
       voluntariosHonorarios: a.integer(),

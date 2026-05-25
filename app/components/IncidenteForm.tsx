@@ -29,7 +29,11 @@ type FormState = {
   horaLlegada: string
   horaRegreso: string
   pasoCombustible: boolean
+  litrosCombustible: string
+  direccionCombustible: string
   pasoMaterial: boolean
+  direccionMaterial: string
+  descripcionMaterial: string
   voluntariosHonorarios: string
   voluntariosActivos: string
   otrasCompanias: string
@@ -52,7 +56,11 @@ const initialState = (): FormState => ({
   horaLlegada: '',
   horaRegreso: '',
   pasoCombustible: false,
+  litrosCombustible: '',
+  direccionCombustible: '',
   pasoMaterial: false,
+  direccionMaterial: '',
+  descripcionMaterial: '',
   voluntariosHonorarios: '0',
   voluntariosActivos: '0',
   otrasCompanias: '0',
@@ -78,7 +86,11 @@ const incidenteToForm = (i: Incidente): FormState => ({
   horaLlegada: timeFromIso(i.horaLlegada),
   horaRegreso: timeFromIso(i.horaRegreso),
   pasoCombustible: i.pasoCombustible ?? false,
+  litrosCombustible: i.litrosCombustible?.toString() ?? '',
+  direccionCombustible: i.direccionCombustible ?? '',
   pasoMaterial: i.pasoMaterial ?? false,
+  direccionMaterial: i.direccionMaterial ?? '',
+  descripcionMaterial: i.descripcionMaterial ?? '',
   voluntariosHonorarios: (i.voluntariosHonorarios ?? 0).toString(),
   voluntariosActivos: (i.voluntariosActivos ?? 0).toString(),
   otrasCompanias: (i.otrasCompanias ?? 0).toString(),
@@ -182,7 +194,11 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
         horaLlegada: toTime(form.horaLlegada) ?? null,
         horaRegreso: toTime(form.horaRegreso) ?? null,
         pasoCombustible: form.pasoCombustible,
+        litrosCombustible: form.pasoCombustible ? (toInt(form.litrosCombustible) ?? null) : null,
+        direccionCombustible: form.pasoCombustible ? (form.direccionCombustible.trim() || null) : null,
         pasoMaterial: form.pasoMaterial,
+        direccionMaterial: form.pasoMaterial ? (form.direccionMaterial.trim() || null) : null,
+        descripcionMaterial: form.pasoMaterial ? (form.descripcionMaterial.trim() || null) : null,
         voluntariosHonorarios: toInt(form.voluntariosHonorarios) ?? 0,
         voluntariosActivos: toInt(form.voluntariosActivos) ?? 0,
         otrasCompanias: toInt(form.otrasCompanias) ?? 0,
@@ -417,6 +433,52 @@ export default function IncidenteForm({ incidente }: { incidente?: Incidente }) 
             onChange={v => set('pasoMaterial', v)}
           />
         </div>
+
+        {form.pasoCombustible && (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 border border-zinc-200 rounded-lg p-4">
+            <Field label="Litros cargados">
+              <input
+                type="number" min="0"
+                placeholder="Ej: 50"
+                value={form.litrosCombustible}
+                onChange={e => set('litrosCombustible', e.target.value)}
+                className={inputCls}
+              />
+            </Field>
+            <Field label="Dirección de carga">
+              <input
+                type="text"
+                placeholder="Ej: Servicentro Copec, Av. Las Condes 1234"
+                value={form.direccionCombustible}
+                onChange={e => set('direccionCombustible', e.target.value)}
+                className={inputCls}
+              />
+            </Field>
+          </div>
+        )}
+
+        {form.pasoMaterial && (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 border border-zinc-200 rounded-lg p-4">
+            <Field label="Dirección donde se buscó material">
+              <input
+                type="text"
+                placeholder="Ej: Cuartel General, Av. España 456"
+                value={form.direccionMaterial}
+                onChange={e => set('direccionMaterial', e.target.value)}
+                className={inputCls}
+              />
+            </Field>
+            <Field label="Material buscado">
+              <input
+                type="text"
+                placeholder="Ej: Mangueras, EPP, cilindros"
+                value={form.descripcionMaterial}
+                onChange={e => set('descripcionMaterial', e.target.value)}
+                className={inputCls}
+              />
+            </Field>
+          </div>
+        )}
       </Section>
 
       {/* Gestión de Personal */}
